@@ -60,7 +60,7 @@ public final class FullPaginationDecorator implements PaginationDecorator {
         Object paramValue = context.getVariable(Keys.PAGINATION_SPLIT_KEY);
         if (paramValue != null) {
             if (paramValue instanceof Integer) {
-                pageSplit = (int) paramValue;
+                pageSplit = (Integer) paramValue;
             } else if (paramValue instanceof BigInteger) {
                 pageSplit = ((BigInteger) paramValue).intValue();
             }
