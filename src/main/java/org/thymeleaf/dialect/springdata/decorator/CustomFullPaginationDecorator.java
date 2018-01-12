@@ -11,16 +11,25 @@ import org.thymeleaf.model.IProcessableElementTag;
 import java.math.BigInteger;
 import java.util.Locale;
 
-public final class FullPaginationDecorator implements PaginationDecorator {
+/**
+ * Created by Dave on 2017/01/24.
+ */
+public final class CustomFullPaginationDecorator implements PaginationDecorator {
     private static final String DEFAULT_CLASS = "pagination";
-    private static final String BUNDLE_NAME = FullPaginationDecorator.class.getSimpleName();
     private static final int DEFAULT_PAGE_SPLIT = 7;
 
+    private String BUNDLE_NAME = CustomFullPaginationDecorator.class.getSimpleName();
+
     public String getIdentifier() {
-        return "full";
+        return "custom-full";
     }
 
     public String decorate(final IProcessableElementTag tag, final ITemplateContext context) {
+
+        String resource = tag.getAttributeValue("sd:resource");
+        if (resource != null) {
+            BUNDLE_NAME = resource;
+        }
 
         Page<?> page = PageUtils.findPage(context);
 
@@ -41,8 +50,9 @@ public final class FullPaginationDecorator implements PaginationDecorator {
 
         // raquo
         boolean isLastPage = page.getTotalPages() == 0 || page.getNumber() == (page.getTotalPages() - 1);
-        String lastPage = PageUtils.createPageUrl(context, page.getTotalPages() - 1);
-        String raquo = isLastPage ? getRaquo(locale) : getRaquo(lastPage, locale);
+        int lastPageNum = page.getTotalPages() - 1;
+        String lastPage = PageUtils.createPageUrl(context, lastPageNum);
+        String raquo = isLastPage ? getRaquo(locale) : getRaquo(lastPage, lastPageNum, locale);
 
         boolean isUl = Strings.UL.equalsIgnoreCase(tag.getElementCompleteName());
         String currentClass = tag.getAttributeValue(Strings.CLASS);
@@ -104,15 +114,15 @@ public final class FullPaginationDecorator implements PaginationDecorator {
     }
 
     private String getLaquo(String firstPage, Locale locale) {
-        return Messages.getMessage(BUNDLE_NAME, "laquo.link", locale, firstPage);
+        return Messages.getMessage(BUNDLE_NAME, "laquo.link", locale, firstPage, 0);
     }
 
     private String getRaquo(Locale locale) {
         return Messages.getMessage(BUNDLE_NAME, "raquo", locale);
     }
 
-    private String getRaquo(String lastPage, Locale locale) {
-        return Messages.getMessage(BUNDLE_NAME, "raquo.link", locale, lastPage);
+    private String getRaquo(String lastPage, int lastPageNum, Locale locale) {
+        return Messages.getMessage(BUNDLE_NAME, "raquo.link", locale, lastPage, lastPageNum);
     }
 
     private String getLink(int pageNumber, Locale locale) {
@@ -120,7 +130,7 @@ public final class FullPaginationDecorator implements PaginationDecorator {
     }
 
     private String getLink(int pageNumber, String url, Locale locale) {
-        return Messages.getMessage(BUNDLE_NAME, "link", locale, url, pageNumber);
+        return Messages.getMessage(BUNDLE_NAME, "link", locale, url, pageNumber, pageNumber - 1);
     }
 
     private String getPreviousPageLink(Page<?> page, final ITemplateContext context) {
@@ -129,7 +139,7 @@ public final class FullPaginationDecorator implements PaginationDecorator {
         Locale locale = context.getLocale();
         String link = PageUtils.createPageUrl(context, previousPage);
 
-        return Messages.getMessage(BUNDLE_NAME, msgKey, locale, link);
+        return Messages.getMessage(BUNDLE_NAME, msgKey, locale, link, previousPage);
     }
 
     private String getNextPageLink(Page<?> page, final ITemplateContext context) {
@@ -142,7 +152,7 @@ public final class FullPaginationDecorator implements PaginationDecorator {
         Locale locale = context.getLocale();
         String link = PageUtils.createPageUrl(context, nextPage);
 
-        return Messages.getMessage(BUNDLE_NAME, msgKey, locale, link);
+        return Messages.getMessage(BUNDLE_NAME, msgKey, locale, link, nextPage);
     }
 
 }

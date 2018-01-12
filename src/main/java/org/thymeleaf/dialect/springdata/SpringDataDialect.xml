@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dialect xmlns="http://www.thymeleaf.org/extras/dialect"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.thymeleaf.org/extras/dialect
+	                    http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd"
+         prefix="sd"
+         namespace-uri="http://www.thymeleaf.org/spring-data"
+         namespace-strict="false"
+         class="org.thymeleaf.dialect.springdata.SpringDataDialect">
+
+    <attribute-processor
+            name="page-object"
+            class="org.thymeleaf.dialect.springdata.PageObjectAttrProcessor">
+    </attribute-processor>
+
+    <attribute-processor
+            name="pagination"
+            class="org.thymeleaf.dialect.springdata.PaginationAttrProcessor">
+    </attribute-processor>
+
+    <attribute-processor
+            name="resource">
+    </attribute-processor>
+
+    <attribute-processor
+            name="pagination-split"
+            class="org.thymeleaf.dialect.springdata.PaginationSplitAttrProcessor">
+    </attribute-processor>
+
+</dialect>

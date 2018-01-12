@@ -1,24 +1,5 @@
 package org.thymeleaf.dialect.springdata.util;
 
-import static org.thymeleaf.dialect.springdata.util.Strings.AND;
-import static org.thymeleaf.dialect.springdata.util.Strings.COMMA;
-import static org.thymeleaf.dialect.springdata.util.Strings.EMPTY;
-import static org.thymeleaf.dialect.springdata.util.Strings.EQ;
-import static org.thymeleaf.dialect.springdata.util.Strings.PAGE;
-import static org.thymeleaf.dialect.springdata.util.Strings.Q_MARK;
-import static org.thymeleaf.dialect.springdata.util.Strings.SIZE;
-import static org.thymeleaf.dialect.springdata.util.Strings.SORT;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -32,6 +13,12 @@ import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
 import org.unbescape.html.HtmlEscape;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static org.thymeleaf.dialect.springdata.util.Strings.*;
 
 @SuppressWarnings("unchecked")
 public final class PageUtils {
@@ -85,7 +72,7 @@ public final class PageUtils {
 
     public static String createPageUrl(final ITemplateContext context, int pageNumber) {
         final String prefix = getParamPrefix(context);
-        final Collection<String> excludedParams = Arrays.asList(new String[] { prefix.concat(PAGE) });
+        final Collection<String> excludedParams = Arrays.asList(new String[]{prefix.concat(PAGE)});
         final String baseUrl = buildBaseUrl(context, excludedParams);
 
         return buildUrl(baseUrl, context).append(PAGE).append(EQ).append(pageNumber).toString();
@@ -93,8 +80,8 @@ public final class PageUtils {
 
     /**
      * Creates an url to sort data by fieldName
-     * 
-     * @param context execution context
+     *
+     * @param context   execution context
      * @param fieldName field name to sort
      * @return sort URL
      */
@@ -102,7 +89,7 @@ public final class PageUtils {
         // Params can be prefixed to manage multiple pagination on the same page
         final String prefix = getParamPrefix(context);
         final Collection<String> excludedParams = Arrays
-                .asList(new String[] { prefix.concat(SORT), prefix.concat(PAGE) });
+                .asList(new String[]{prefix.concat(SORT), prefix.concat(PAGE)});
         final String baseUrl = buildBaseUrl(context, excludedParams);
 
         final StringBuilder sortParam = new StringBuilder();
@@ -125,7 +112,7 @@ public final class PageUtils {
         final String prefix = getParamPrefix(context);
         // Reset page number to avoid empty lists
         final Collection<String> excludedParams = Arrays
-                .asList(new String[] { prefix.concat(SIZE), prefix.concat(PAGE) });
+                .asList(new String[]{prefix.concat(SIZE), prefix.concat(PAGE)});
         final String baseUrl = buildBaseUrl(context, excludedParams);
 
         return buildUrl(baseUrl, context).append(SIZE).append(EQ).append(pageSize).toString();
@@ -137,18 +124,6 @@ public final class PageUtils {
 
     public static int getLatestItemInPage(final Page<?> page) {
         return page.getSize() * page.getNumber() + page.getNumberOfElements();
-    }
-    
-    public static boolean isFirstPage(Page<?> page) {
-    		if( page.getTotalPages()==0 ) {
-    			return true;
-    		}
-    		
-    		return page.isFirst();
-    }
-    
-    public static boolean hasPrevious(Page<?> page) {
-    		return page.getTotalPages()>0 && page.hasPrevious();
     }
 
     private static String buildBaseUrl(final ITemplateContext context, Collection<String> excludeParams) {
@@ -162,7 +137,7 @@ public final class PageUtils {
             final HttpServletRequest request = webContext.getRequest();
 
             // URL base path from request
-            builder.append(request.getRequestURI());
+            builder.append(request.getRequestURI().substring(request.getContextPath().length()));
 
             Map<String, String[]> params = request.getParameterMap();
             Set<Entry<String, String[]>> entries = params.entrySet();
