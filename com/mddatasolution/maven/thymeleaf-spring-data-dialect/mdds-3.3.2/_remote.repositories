@@ -1,0 +1,10 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sat Jan 13 01:10:31 KST 2018
+thymeleaf-spring-data-dialect-mdds-3.3.2-javadoc.jar>=
+thymeleaf-spring-data-dialect-mdds-3.3.2.pom>=
+thymeleaf-spring-data-dialect-mdds-3.3.2-javadoc.jar.asc>=
+thymeleaf-spring-data-dialect-mdds-3.3.2.pom.asc>=
+thymeleaf-spring-data-dialect-mdds-3.3.2.jar.asc>=
+thymeleaf-spring-data-dialect-mdds-3.3.2-sources.jar>=
+thymeleaf-spring-data-dialect-mdds-3.3.2-sources.jar.asc>=
+thymeleaf-spring-data-dialect-mdds-3.3.2.jar>=
