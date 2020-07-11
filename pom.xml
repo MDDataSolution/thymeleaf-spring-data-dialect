@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mddatasolution.maven</groupId>
     <artifactId>thymeleaf-spring-data-dialect</artifactId>
-    <version>mdds-3.3.2</version>
+    <version>mdds-3.3.3</version>
 
     <name>Thymeleaf Spring Data Dialect</name>
     <description>Data pagination made easy with Thymeleaf and Spring Data</description>
@@ -43,8 +43,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>

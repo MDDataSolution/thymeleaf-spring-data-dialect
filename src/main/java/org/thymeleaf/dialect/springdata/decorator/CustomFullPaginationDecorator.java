@@ -130,7 +130,9 @@ public final class CustomFullPaginationDecorator implements PaginationDecorator 
     }
 
     private String getLink(int pageNumber, String url, Locale locale) {
-        return Messages.getMessage(BUNDLE_NAME, "link", locale, url, pageNumber, pageNumber - 1);
+        return Messages.getMessage(BUNDLE_NAME, "link", locale,
+                url.replace("[", "%5B").replace("]", "%5D"),
+                pageNumber, pageNumber - 1);
     }
 
     private String getPreviousPageLink(Page<?> page, final ITemplateContext context) {
